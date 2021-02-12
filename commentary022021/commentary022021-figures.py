@@ -3,6 +3,7 @@ import os
 import re
 import numpy as np
 from datetime import datetime
+from sklearn.decomposition import PCA
 
 # Plotting Packages
 import matplotlib.pyplot as plt
@@ -23,7 +24,7 @@ colors=['#033C5A','#AA9868','#0190DB','#FFC72C','#A75523','#008364','#78BE20','#
 #----------------------------------------------------Import Data--------------------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
 # Import monthly data
-monthlyIndex=pd.read_csv(r'C:\Users\Zoey\Box Sync\GWRSC\Regulatory Sentiment and Uncertainty\Data\TDM Studio\Analysis of Reg News\Data\RegRelevant_MonthlySentimentIndex_Jan2021.csv')
+monthlyIndex=pd.read_csv(r'Data\RegRelevant_MonthlySentimentIndex_Jan2021.csv')
 print(monthlyIndex.info())
 
 monthlyIndex['Year-Month']=monthlyIndex['Year'].map(str)+'-'+monthlyIndex['Month'].map(str)
@@ -33,8 +34,23 @@ for dict in ['GI','LM','LSD']:
     monthlyIndex[dict+'index_standardized']=(monthlyIndex[dict+'index']-np.mean(monthlyIndex[dict+'index']))/np.std(monthlyIndex[dict+'index'])
 monthlyIndex['UncertaintyIndex_standardized']=(monthlyIndex['UncertaintyIndex']-np.mean(monthlyIndex['UncertaintyIndex']))/np.std(monthlyIndex['UncertaintyIndex'])
 
+# PCA of monthly sentiment indexes
+features = ['GIindex', 'LMindex', 'LSDindex']
+x = monthlyIndex.loc[:, features].values
+pca = PCA(n_components=2)
+principalComponents = pca.fit_transform(x)
+print("Variance explained by PC1 and PC2:", pca.explained_variance_ratio_)
+print("PC1 feature weights:", pca.components_[0])
+
+principalComponents_neg=principalComponents*(-1)
+principalDf = pd.DataFrame(data = principalComponents_neg, columns = ['SentimentPC1', 'SentimentPC2'])
+monthlyIndex = pd.concat([monthlyIndex, principalDf], axis = 1)
+
+monthlyIndex['SentimentMax']=monthlyIndex[['GIindex','LMindex','LSDindex']].max(axis=1)
+monthlyIndex['SentimentMin']=monthlyIndex[['GIindex','LMindex','LSDindex']].min(axis=1)
+
 # Import weekly data
-weeklyIndex=pd.read_csv(r'C:\Users\Zoey\Box Sync\GWRSC\Regulatory Sentiment and Uncertainty\Data\TDM Studio\Analysis of Reg News\Data\RegRelevant_WeeklySentimentIndex_Jan2021.csv')
+weeklyIndex=pd.read_csv(r'Data\RegRelevant_WeeklySentimentIndex_Jan2021.csv')
 print(weeklyIndex.info())
 
 weeklyIndex['date']=weeklyIndex['StartDate'].astype('datetime64[ns]').dt.date
@@ -43,31 +59,16 @@ for dict in ['GI','LM','LSD']:
     weeklyIndex[dict+'index_standardized']=(weeklyIndex[dict+'index']-np.mean(weeklyIndex[dict+'index']))/np.std(weeklyIndex[dict+'index'])
 weeklyIndex['UncertaintyIndex_standardized']=(weeklyIndex['UncertaintyIndex']-np.mean(weeklyIndex['UncertaintyIndex']))/np.std(weeklyIndex['UncertaintyIndex'])
 
-# PCA of monthly sentiment indexes
-from sklearn.decomposition import PCA
-
-#features = ['GIindex_standardized', 'LMindex_standardized', 'LSDindex_standardized']
-features = ['GIindex', 'LMindex', 'LSDindex']
-x = monthlyIndex.loc[:, features].values
-pca = PCA(n_components=2)
-principalComponents = pca.fit_transform(x)
-principalComponents_neg=principalComponents*(-1)
-principalDf = pd.DataFrame(data = principalComponents_neg, columns = ['SentimentPC1', 'SentimentPC2'])
-print("Variance explained by PC:", pca.explained_variance_ratio_)
-
-monthlyIndex = pd.concat([monthlyIndex, principalDf], axis = 1)
-
-monthlyIndex['SentimentMax']=monthlyIndex[['GIindex','LMindex','LSDindex']].max(axis=1)
-monthlyIndex['SentimentMin']=monthlyIndex[['GIindex','LMindex','LSDindex']].min(axis=1)
-
 # PCA of weekly sentiment indexes
+features = ['GIindex', 'LMindex', 'LSDindex']
 x = weeklyIndex.loc[:, features].values
 pca = PCA(n_components=2)
 principalComponents = pca.fit_transform(x)
+print("Variance explained by PC1 and PC2:", pca.explained_variance_ratio_)
+print("PC1 feature weights:", pca.components_[0])
+
 principalComponents_neg=principalComponents*(-1)
 principalDf = pd.DataFrame(data = principalComponents_neg, columns = ['SentimentPC1', 'SentimentPC2'])
-print("Variance explained by PC:", pca.explained_variance_ratio_)
-
 weeklyIndex = pd.concat([weeklyIndex, principalDf], axis = 1)
 
 
@@ -152,7 +153,6 @@ fig.text(0.12, 0.02,'Notes: The uncertainty index was estimated using a dictiona
                     ' on "Sentiment and Uncertainty about Regulation".',
          fontsize=14,style='italic')
 
-plt.savefig('Figures/UncertaintyIndex under Trump.jpg', bbox_inches='tight')
 plt.savefig('Figures/Figure1.jpg', bbox_inches='tight')
 plt.show()
 
@@ -244,7 +244,6 @@ fig.text(0.12, 0.03,'Notes: The uncertainty index was estimated using a dictiona
 # Adjust plot position
 plt.subplots_adjust(top=0.81, bottom=0.15)
 
-plt.savefig('Figures/UncertaintyIndex with Events by Presidential Year.jpg', bbox_inches='tight')
 plt.savefig('Figures/Figure3.jpg', bbox_inches='tight')
 plt.show()
 
@@ -328,7 +327,6 @@ fig.text(0.12, 0.02,'Notes: The sentiment index was estimated using a dictionary
                     ' on "Sentiment and Uncertainty about Regulation".',
          fontsize=14,style='italic')
 
-plt.savefig("Figures/SentimentPC1 under Trump with Weekly Inset.jpg", bbox_inches='tight')
 plt.savefig("Figures/Figure2.jpg", bbox_inches='tight')
 plt.show()
 
@@ -427,6 +425,5 @@ fig.text(0.12, 0.03, 'Notes: The sentiment index was estimated using a dictionar
 # Adjust plot position
 plt.subplots_adjust(top=0.81, bottom=0.15)
 
-plt.savefig("Figures/SentimentPC1 with events by Presidential Year.jpg", bbox_inches='tight')
 plt.savefig("Figures/Figure4.jpg", bbox_inches='tight')
 plt.show()
