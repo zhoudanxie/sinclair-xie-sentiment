@@ -115,107 +115,7 @@ ax.spines['top'].set_visible(False)
 ax.spines['left'].set_color('#d3d3d3')
 ax.spines['bottom'].set_color('#d3d3d3')
 
-# # Legend
-# plt.legend(loc=9,bbox_to_anchor=(.35, .485, .6, .5),fontsize=16)
-
-# # Inset plot
-# xins=x.iloc[-8:]
-# y1ins=y.iloc[-8:]
-#
-# axins=inset_axes(ax, width=4.2, height=2.2, bbox_to_anchor=(.04, .48, .6, .5),
-#                     bbox_transform=ax.transAxes,loc=2)
-#
-# axins.plot(xins,y1ins,color='#033C5A',linewidth=2,marker='D',markersize=8)
-# axins.format_xdata = mdates.DateFormatter('%Y-%m')
-# axins.set_yticks(np.arange(100,225,25))
-# axins.grid(color='gray', which='major', axis='y', linestyle='dotted')
-# axins.tick_params(axis='both',which='major',labelsize=10)
-# axins.set_facecolor('#d3d3d3')
-# axins.set_alpha(0.5)
-# axins.set_title('Index over the Past Eight Months',fontsize=16,position=(0.5,0.85))
-
-# Notes
-# fig.text(0.065,0.07,"Notes:  The index is normalized to mean 100 from January 1985 through December 2009. "
-#                     "The index is calculated and plotted using data\nfrom seven U.S. newspapers including "
-#                     "Boston Globe, Chicago Tribune, Los Angeles Times, New York Times, USA Today, Wall Street Journal,\n"
-#                   "and The Washington Post. Data for The Washington Post are available from January 1987, "
-#                     "and data for USA Today are available from April 1987.",
-#          fontsize=16,style='italic')
-
-# plt.savefig('Figures/Reg Relevance Index (Jan 1985-Aug 2020).jpg')
 plt.savefig('Figures/Manuscript Figures/Figure1.jpg', bbox_inches='tight')
-plt.show()
-
-#-----------------------------------------------------------------------------------------------------------------------
-# Plot reg relevance index with election shading
-x=index['date']
-y=index['Reg Relevance']
-
-years = mdates.YearLocator(2)   # every year
-months = mdates.MonthLocator()  # every month
-years_fmt = mdates.DateFormatter('%Y')
-
-fig, ax = plt.subplots(1, figsize=(15,10))
-ax.plot(x,y,color=colors[0])
-
-# add shaded areas
-elections=pd.read_excel('Data/Elections.xlsx')
-for i in range(0, len(elections)):
-    ax.axvspan(elections['StartDate'][i], elections['EndDate'][i], alpha=0.5, color='gray')
-
-# format the ticks
-ax.xaxis.set_major_locator(years)
-ax.xaxis.set_major_formatter(years_fmt)
-ax.xaxis.set_minor_locator(months)
-
-# round to nearest years.
-datemin = np.datetime64(index['date'].iloc[0], 'Y')
-datemax = np.datetime64(index['date'].iloc[-1], 'Y') + np.timedelta64(1, 'Y')
-ax.set_xlim(datemin, datemax)
-
-# format the coords message box
-ax.format_xdata = mdates.DateFormatter('%Y-%m-%d')
-ax.format_ydata = lambda x: '$%1.2f' % x
-ax.grid(False)
-ax.set_title('Figure 1-1: Index of News Coverage on Regulation with Election Shading, January 1985-June 2020',fontsize=22)
-
-# rotates and right aligns the x labels, and moves the bottom of the
-# axes up to make room for them
-fig.autofmt_xdate()
-
-# Set tick and label format
-ax.tick_params(axis='both',which='major',labelsize=14)
-ax.set_ylabel('Index',fontsize=24)
-ax.set_yticks(np.arange(50,max(y)+50,50))
-ax.grid(color='gray', which='major', axis='y', linestyle='dashed')
-# Legend
-plt.legend(loc=9,bbox_to_anchor=(.35, .485, .6, .5),fontsize=16)
-
-# Inset plot
-xins=x.iloc[-6:]
-y1ins=y.iloc[-6:]
-
-axins=inset_axes(ax, width=4.2, height=2.2, bbox_to_anchor=(.04, .48, .6, .5),
-                    bbox_transform=ax.transAxes,loc=2)
-
-axins.plot(xins,y1ins,color='#033C5A',linewidth=2,marker='D',markersize=8)
-axins.format_xdata = mdates.DateFormatter('%Y-%m')
-axins.set_yticks(np.arange(100,225,25))
-axins.grid(color='gray', which='major', axis='y', linestyle='dotted')
-axins.tick_params(axis='both',which='major',labelsize=14)
-axins.set_facecolor('#d3d3d3')
-axins.set_alpha(0.5)
-axins.set_title('Index over the Past Six Months',fontsize=16,position=(0.5,0.85))
-
-# Notes
-fig.text(0.065,0.07,"Notes:  The index is normalized to mean 100 from January 1985 through December 2009. "
-                    "The index is calculated and plotted using data\nfrom seven U.S. newspapers including "
-                    "Boston Globe, Chicago Tribune, Los Angeles Times, New York Times, USA Today, Wall Street Journal,\n"
-                  "and The Washington Post. Data for The Washington Post are available from January 1987, "
-                    "and data for USA Today are available from April 1987.",
-         fontsize=16,style='italic')
-
-plt.savefig('Figures/Reg Relevance Index with Election Shading.jpg')
 plt.show()
 
 # -----------------------------------------------------------------------------------------------------------------------
@@ -289,34 +189,6 @@ ax.spines['top'].set_visible(False)
 ax.spines['left'].set_color('#d3d3d3')
 ax.spines['bottom'].set_color('#d3d3d3')
 
-# # Legend
-# plt.legend(loc=9,bbox_to_anchor=(.35, .485, .6, .5),fontsize=16)
-
-# # Inset plot
-# xins=x.iloc[-8:]
-# y1ins=y.iloc[-8:]
-#
-# axins=inset_axes(ax, width=4.2, height=2.2, bbox_to_anchor=(.04, .48, .6, .5),
-#                     bbox_transform=ax.transAxes,loc=2)
-#
-# axins.plot(xins,y1ins,color='#033C5A',linewidth=2,marker='D',markersize=8)
-# axins.format_xdata = mdates.DateFormatter('%Y-%m')
-# axins.set_yticks(np.arange(100,225,25))
-# axins.grid(color='gray', which='major', axis='y', linestyle='dotted')
-# axins.tick_params(axis='both',which='major',labelsize=10)
-# axins.set_facecolor('#d3d3d3')
-# axins.set_alpha(0.5)
-# axins.set_title('Index over the Past Eight Months',fontsize=16,position=(0.5,0.85))
-
-# Notes
-# fig.text(0.065,0.07,"Notes:  The index is normalized to mean 100 from January 1985 through December 2009. "
-#                     "The index is calculated and plotted using data\nfrom seven U.S. newspapers including "
-#                     "Boston Globe, Chicago Tribune, Los Angeles Times, New York Times, USA Today, Wall Street Journal,\n"
-#                   "and The Washington Post. Data for The Washington Post are available from January 1987, "
-#                     "and data for USA Today are available from April 1987.",
-#          fontsize=16,style='italic')
-
-# plt.savefig('Figures/Reg Relevance Index (Jan 1985-Aug 2020).jpg')
 plt.savefig('Figures/Reg Relevance Index with Events (Jan 1985-Aug 2020).jpg', bbox_inches='tight')
 plt.savefig('Figures/Manuscript Figures/Figure1_2.jpg', bbox_inches='tight')
 #plt.show()
@@ -324,7 +196,7 @@ plt.savefig('Figures/Manuscript Figures/Figure1_2.jpg', bbox_inches='tight')
 #-----------------------------------------------------------------------------------------------------------------------
 #---------------------------------------Plot Monthly Sentiment & Uncertainty Indexes--------------------------------------------
 #-----------------------------------------------------------------------------------------------------------------------
-# Plot the sentiment index
+# Import the sentiment indexes
 monthlyIndex=pd.read_csv('Data/RegRelevant_MonthlySentimentIndex.csv')
 print(monthlyIndex.info())
 
@@ -398,6 +270,18 @@ kpss_test('LSDindex')
 kpss_test('SentimentPC1')
 
 #-----------------------------------------------------------------------------------------------------------------------
+# Correlations between sentiment indexes
+import scipy.stats
+
+print('LM & GI:',scipy.stats.pearsonr(monthlyIndex['LMindex'], monthlyIndex['GIindex']))
+print('LM & LSD:',scipy.stats.pearsonr(monthlyIndex['LMindex'], monthlyIndex['LSDindex']))
+print('LSD & GI',scipy.stats.pearsonr(monthlyIndex['LSDindex'], monthlyIndex['GIindex']))
+
+print(np.corrcoef(monthlyIndex['LMindex_standardized'], monthlyIndex['GIindex_standardized']))
+print(np.corrcoef(monthlyIndex['LMindex_standardized'], monthlyIndex['LSDindex_standardized']))
+print(np.corrcoef(monthlyIndex['GIindex_standardized'], monthlyIndex['LSDindex_standardized']))
+
+#-----------------------------------------------------------------------------------------------------------------------
 # Plot monthly uncertainty index
 x=monthlyIndex['date']
 y=monthlyIndex['UncertaintyIndex']
@@ -438,33 +322,6 @@ ax.spines['right'].set_visible(False)
 ax.spines['left'].set_color('#d3d3d3')
 ax.spines['bottom'].set_color('#d3d3d3')
 
-# Title
-# fig.suptitle('Monthly Regulatory Uncertainty Index',
-#                 y=0.95,fontsize=20)
-# ax.set_title('(January 1985 - August 2020)',fontsize=18)
-
-# # Inset plot
-# xins=x.iloc[-8:]
-# yins=y.iloc[-8:]
-#
-# axins=inset_axes(ax, width=4, height=2, bbox_to_anchor=(.04, .48, .6, .5),
-#                     bbox_transform=ax.transAxes,loc=2)
-#
-# axins.plot(xins,yins,color='#033C5A',linewidth=2,marker='D',markersize=8)
-# axins.format_xdata = mdates.DateFormatter('%Y-%m')
-# axins.set_yticks(np.arange(round(min(yins),1)-0.1, round(max(yins),1)+0.2, 0.1))
-# axins.grid(color='gray', which='major', axis='y', linestyle='dotted')
-# axins.tick_params(axis='both',which='major',labelsize=10)
-# axins.set_facecolor('#d3d3d3')
-# axins.set_alpha(0.5)
-# axins.set_title('Index over the Past Eight Months',fontsize=14,position=(0.5,0.85))
-
-# Notes
-# fig.text(0.08, 0.02,"Notes: The uncertainty index was estimated using the uncertainty category in the "
-#                     "Loughran and McDonald (LM) dictionary;",
-#          fontsize=14,style='italic')
-
-# plt.savefig('Figures/Monthly Reg Uncertainty Index (Jan 1985-Aug 2020).jpg')
 plt.savefig('Figures/Manuscript Figures/Figure3.jpg', bbox_inches='tight')
 plt.show()
 
@@ -536,7 +393,7 @@ def plotSentimentIndex(dict):
     plt.savefig("Data/TDM Studio/Analysis of Reg News/Figures/Monthly " + dict_name + " Sentiment Index (Jan 1985-Aug 2020).jpg")
     plt.show()
 
-# Plot sentiment index
+# Plot sentiment indexes
 plotSentimentIndex('GIindex')
 plotSentimentIndex('LMindex')
 plotSentimentIndex('LSDindex')
@@ -552,13 +409,6 @@ fig, ax = plt.subplots(1, figsize=(15,10))
 ax.plot(x,y1,color=colors[0],label='GI sentiment index')
 ax.plot(x,y2,color=colors[1],label='LSD sentiment index')
 ax.plot(x,y3,color=colors[2],label='LM sentiment index')
-
-# Add shading for time periods
-# ax.axvspan('1987-01-01', '1993-01-01', alpha=0.5, color='#F9E08E')
-# ax.axvspan('1993-01-01', '2001-01-01', alpha=0.5, color='#d3d3d3')
-# ax.axvspan('2001-01-01', '2006-01-01', alpha=0.5, color='#F9E08E')
-# ax.axvspan('2006-01-01', '2018-01-01', alpha=0.5, color='#d3d3d3')
-# ax.axvspan('2018-01-01', '2020-07-01', alpha=0.5, color='#F9E08E')
 
 # format the ticks
 years = mdates.YearLocator(2)   # every year
@@ -595,26 +445,6 @@ fig.suptitle("Figure 7: Monthly Sentiment Indexes",
 ax.set_title('(January 1985 - August 2020)',fontsize=18)
 fig.legend(loc='lower left', bbox_to_anchor=(.3, .1, .9, .9), ncol=3, fontsize=14)
 
-# Inset plot
-# xins=x.iloc[-6:]
-# y1ins=y1.iloc[-6:]
-# y2ins=y2.iloc[-6:]
-# y3ins=y3.iloc[-6:]
-#
-# axins=inset_axes(ax, width=4, height=2, bbox_to_anchor=(.04, .48, .6, .5),
-#                     bbox_transform=ax.transAxes,loc=2)
-#
-# axins.plot(xins,y1ins,color=colors[0],linewidth=2,marker='D',markersize=8)
-# axins.plot(xins,y2ins,color=colors[1],linewidth=2,marker='D',markersize=8)
-# axins.plot(xins,y3ins,color=colors[2],linewidth=2,marker='D',markersize=8)
-# axins.format_xdata = mdates.DateFormatter('%Y-%m')
-# #axins.set_yticks(np.arange(round(min(min(y1ins),min(y2ins),min(y3ins)),1)-0.1, round(max(max(y1ins),max(y2ins),max(y3ins)),1)+0.2, 0.1))
-# axins.grid(color='gray', which='major', axis='y', linestyle='dotted')
-# axins.tick_params(axis='both',which='major',labelsize=14)
-# axins.set_facecolor('#d3d3d3')
-# axins.set_alpha(0.5)
-# axins.set_title('Scores over the Past Six Months',fontsize=14,position=(0.5,0.85))
-
 # Notes
 fig.text(0.12, 0.07,"Notes: The sentiment indexes were estimated using sentiment analyses of expanded regulatory sentences"
             "using the GI, LSD or LM dictionary.",
@@ -633,13 +463,6 @@ fig, ax = plt.subplots(1, figsize=(15,10))
 ax.plot(x,y1,color=colors[1],linewidth=1.1,label='GI sentiment index')
 ax.plot(x,y2,color='#FF4500',linewidth=1.1,label='LSD sentiment index')
 ax.plot(x,y3,color=colors[0],linewidth=1.1,label='LM sentiment index')
-
-# Add shading for time periods
-# ax.axvspan('1987-01-01', '1993-01-01', alpha=0.5, color='#F9E08E')
-# ax.axvspan('1993-01-01', '2001-01-01', alpha=0.5, color='#d3d3d3')
-# ax.axvspan('2001-01-01', '2006-01-01', alpha=0.5, color='#F9E08E')
-# ax.axvspan('2006-01-01', '2018-01-01', alpha=0.5, color='#d3d3d3')
-# ax.axvspan('2018-01-01', '2020-07-01', alpha=0.5, color='#F9E08E')
 
 # format the ticks
 years = mdates.YearLocator(2)   # every year
@@ -669,59 +492,17 @@ ax.set_ylim(bottom=-4)
 ax.grid(color='#d3d3d3', which='major', axis='y')
 
 # Borders
-# ax.spines['right'].set_color('#d3d3d3')
 ax.spines['right'].set_visible(False)
 ax.spines['top'].set_visible(False)
 ax.spines['left'].set_color('#d3d3d3')
 ax.spines['bottom'].set_color('#d3d3d3')
 
 # Title
-# fig.suptitle("Figure 8: Monthly Average Sentiment Indexes",
-#                 y=0.95,fontsize=20)
-# ax.set_title('(January 1985 - August 2020)',fontsize=18)
 fig.legend(loc='lower left', bbox_to_anchor=(0.15, 0.01), ncol=3, fontsize=14)
 fig.subplots_adjust(bottom=0.15)
 
-# Inset plot
-# xins=x.iloc[-6:]
-# y1ins=y1.iloc[-6:]
-# y2ins=y2.iloc[-6:]
-# y3ins=y3.iloc[-6:]
-#
-# axins=inset_axes(ax, width=4, height=2, bbox_to_anchor=(.04, .48, .6, .5),
-#                     bbox_transform=ax.transAxes,loc=2)
-#
-# axins.plot(xins,y1ins,color=colors[0],linewidth=2,marker='D',markersize=8)
-# axins.plot(xins,y2ins,color=colors[1],linewidth=2,marker='D',markersize=8)
-# axins.plot(xins,y3ins,color=colors[2],linewidth=2,marker='D',markersize=8)
-# axins.format_xdata = mdates.DateFormatter('%Y-%m')
-# #axins.set_yticks(np.arange(round(min(min(y1ins),min(y2ins),min(y3ins)),1)-0.1, round(max(max(y1ins),max(y2ins),max(y3ins)),1)+0.2, 0.1))
-# axins.grid(color='gray', which='major', axis='y', linestyle='dotted')
-# axins.tick_params(axis='both',which='major',labelsize=14)
-# axins.set_facecolor('#d3d3d3')
-# axins.set_alpha(0.5)
-# axins.set_title('Scores over the Past Six Months',fontsize=14,position=(0.5,0.85))
-
-# # Notes
-# fig.text(0.12, 0.07,"Notes: The sentiment indexes were estimated using sentiment analyses of expanded regulatory sentences"
-#             "using the GI, LSD or LM dictionary.",
-#          fontsize=14,style='italic')
-
-# plt.savefig("Data/TDM Studio/Analysis of Reg News/Figures/Standardized Monthly Sentiments Indexes (Jan 1985-Aug 2020).jpg")
 plt.savefig('Figures/Manuscript Figures/Figure2.jpg', bbox_inches='tight')
 plt.show()
-
-#-----------------------------------------------------------------------------------------------------------------------
-# Correlations between sentiment indexes
-import scipy.stats
-
-print('LM & GI:',scipy.stats.pearsonr(monthlyIndex['LMindex'], monthlyIndex['GIindex']))
-print('LM & LSD:',scipy.stats.pearsonr(monthlyIndex['LMindex'], monthlyIndex['LSDindex']))
-print('LSD & GI',scipy.stats.pearsonr(monthlyIndex['LSDindex'], monthlyIndex['GIindex']))
-
-print(np.corrcoef(monthlyIndex['LMindex_standardized'], monthlyIndex['GIindex_standardized']))
-print(np.corrcoef(monthlyIndex['LMindex_standardized'], monthlyIndex['LSDindex_standardized']))
-print(np.corrcoef(monthlyIndex['GIindex_standardized'], monthlyIndex['LSDindex_standardized']))
 
 #-----------------------------------------------------------------------------------------------------------------------
 # Plot sentiment PC1
@@ -828,33 +609,6 @@ ax.spines['right'].set_visible(False)
 ax.spines['left'].set_color('#d3d3d3')
 ax.spines['bottom'].set_color('#d3d3d3')
 
-# Title
-# fig.suptitle('Monthly Regulatory Uncertainty Index',
-#                 y=0.95,fontsize=20)
-# ax.set_title('(January 1985 - August 2020)',fontsize=18)
-
-# # Inset plot
-# xins=x.iloc[-8:]
-# yins=y.iloc[-8:]
-#
-# axins=inset_axes(ax, width=4, height=2, bbox_to_anchor=(.04, .48, .6, .5),
-#                     bbox_transform=ax.transAxes,loc=2)
-#
-# axins.plot(xins,yins,color='#033C5A',linewidth=2,marker='D',markersize=8)
-# axins.format_xdata = mdates.DateFormatter('%Y-%m')
-# axins.set_yticks(np.arange(round(min(yins),1)-0.1, round(max(yins),1)+0.2, 0.1))
-# axins.grid(color='gray', which='major', axis='y', linestyle='dotted')
-# axins.tick_params(axis='both',which='major',labelsize=10)
-# axins.set_facecolor('#d3d3d3')
-# axins.set_alpha(0.5)
-# axins.set_title('Index over the Past Eight Months',fontsize=14,position=(0.5,0.85))
-
-# Notes
-# fig.text(0.08, 0.02,"Notes: The uncertainty index was estimated using the uncertainty category in the "
-#                     "Loughran and McDonald (LM) dictionary;",
-#          fontsize=14,style='italic')
-
-# plt.savefig('Figures/Monthly Reg Uncertainty Index (Jan 1985-Aug 2020).jpg')
 plt.savefig('Figures/Monthly Reg Uncertainty Index with Events (Jan 1985-Aug 2020).jpg', bbox_inches='tight')
 #plt.show()
 
@@ -936,37 +690,8 @@ ax.spines['left'].set_color('#d3d3d3')
 ax.spines['bottom'].set_color('#d3d3d3')
 
 # Title
-# fig.suptitle("Figure 8: Monthly Average Sentiment Indexes",
-#                 y=0.95,fontsize=20)
-# ax.set_title('(January 1985 - August 2020)',fontsize=18)
 fig.legend(loc='lower left', bbox_to_anchor=(0.2, 0.01), ncol=3, fontsize=16)
 fig.subplots_adjust(bottom=0.15)
 
-# Inset plot
-# xins=x.iloc[-6:]
-# y1ins=y1.iloc[-6:]
-# y2ins=y2.iloc[-6:]
-# y3ins=y3.iloc[-6:]
-#
-# axins=inset_axes(ax, width=4, height=2, bbox_to_anchor=(.04, .48, .6, .5),
-#                     bbox_transform=ax.transAxes,loc=2)
-#
-# axins.plot(xins,y1ins,color=colors[0],linewidth=2,marker='D',markersize=8)
-# axins.plot(xins,y2ins,color=colors[1],linewidth=2,marker='D',markersize=8)
-# axins.plot(xins,y3ins,color=colors[2],linewidth=2,marker='D',markersize=8)
-# axins.format_xdata = mdates.DateFormatter('%Y-%m')
-# #axins.set_yticks(np.arange(round(min(min(y1ins),min(y2ins),min(y3ins)),1)-0.1, round(max(max(y1ins),max(y2ins),max(y3ins)),1)+0.2, 0.1))
-# axins.grid(color='gray', which='major', axis='y', linestyle='dotted')
-# axins.tick_params(axis='both',which='major',labelsize=14)
-# axins.set_facecolor('#d3d3d3')
-# axins.set_alpha(0.5)
-# axins.set_title('Scores over the Past Six Months',fontsize=14,position=(0.5,0.85))
-
-# # Notes
-# fig.text(0.12, 0.07,"Notes: The sentiment indexes were estimated using sentiment analyses of expanded regulatory sentences"
-#             "using the GI, LSD or LM dictionary.",
-#          fontsize=14,style='italic')
-
-# plt.savefig("Data/TDM Studio/Analysis of Reg News/Figures/Standardized Monthly Sentiments Indexes (Jan 1985-Aug 2020).jpg")
 plt.savefig('Figures/Monthly Standardized Sentiment Indexes with Events.jpg', bbox_inches='tight')
 #plt.show()
