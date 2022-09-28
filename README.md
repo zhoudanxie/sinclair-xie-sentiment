@@ -1,1 +1,1 @@
-### This repository contains code used for the paper "[Sentiment and Uncertainty about Regulation](https://zhoudanxie.github.io/documents/wp-SinclairXie2022.pdf)."
+### This repository contains the code used for the paper "[Sentiment and Uncertainty about Regulation](https://zhoudanxie.github.io/documents/wp-SinclairXie2022.pdf)."
